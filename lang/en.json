@@ -1,0 +1,6 @@
+{
+    "login.success": "The login was successful",
+    "login.error": "The email or password was incorrect",
+    "register.success": "The registration was successful",
+    "logout.success": "The logout was successful",
+}
