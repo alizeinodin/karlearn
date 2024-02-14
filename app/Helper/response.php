@@ -1,6 +1,6 @@
 <?php
 
-function jsonResponse(array $response, int $status): \Illuminate\Http\JsonResponse
+function jsonResponse(mixed $response, int $status): \Illuminate\Http\JsonResponse
 {
     $contents = [
         'version' => env('version'),
