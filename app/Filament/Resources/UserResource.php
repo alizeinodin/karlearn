@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
@@ -23,7 +21,15 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')->string(),
+                Forms\Components\TextInput::make('lastname')->string(),
+                Forms\Components\TextInput::make('username')->required()->string(),
+                Forms\Components\TextInput::make('nickname')->required()->string(),
+                Forms\Components\TextInput::make('email')->required()->email(),
+                Forms\Components\DatePicker::make('email_verified_at')->date(),
+                Forms\Components\TextInput::make('password')->required()->password(),
+                Forms\Components\RichEditor::make('about_me')->columnSpan(2),
+                Forms\Components\DatePicker::make('created_at')->date()->visibleOn('edit'),
             ]);
     }
 
@@ -31,13 +37,18 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('username'),
+                Tables\Columns\TextColumn::make('nickname'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('email_verified_at'),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('verified')
+                    ->query(fn(Builder $query): Builder => $query->whereNotNull('email_verified_at')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
