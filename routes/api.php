@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 require_once 'API/auth.php';
 
+Route::apiResource('courses', \App\Http\Controllers\CourseController::class);
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
