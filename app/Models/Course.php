@@ -33,4 +33,9 @@ class Course extends Model
     {
         return "id";
     }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
 }
