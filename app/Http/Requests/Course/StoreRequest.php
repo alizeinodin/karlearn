@@ -28,7 +28,8 @@ class StoreRequest extends FormRequest
             'cost' => 'integer',
             'type' => 'in:free,combinational,unfree',
             'index_img' => 'image|max:51200',
-            'index_video' => 'mimes:mp4,avi,mkv,webm|max:204800'
+            'index_video' => 'mimes:mp4,avi,mkv,webm|max:204800',
+            'category_id' => 'exists:categories,id',
         ];
     }
 }
