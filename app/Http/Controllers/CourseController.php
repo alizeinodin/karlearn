@@ -31,6 +31,7 @@ class CourseController extends Controller
             'content' => $validatedData['content'],
             'type' => $validatedData['type'],
             'cost' => $validatedData['cost'],
+            'category_id' => $validatedData['category_id'] ?? 1
         ]);
 
         if (isset($validatedData['index_img']))
