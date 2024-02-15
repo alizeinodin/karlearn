@@ -19,6 +19,7 @@ class Course extends Model
         'index_video',
         'type',
     ];
+    protected $with = ['sections'];
 
     # TODO Add enum and casting to type
 
@@ -32,6 +33,11 @@ class Course extends Model
     public function getRouteKeyName(): string
     {
         return "id";
+    }
+
+    public function scopeWithAll($query)
+    {
+        return $query->with($this->supportedRelations);
     }
 
     public function sections()
