@@ -21,6 +21,7 @@ Route::apiResource('sections', \App\Http\Controllers\API\Course\SectionControlle
     ->except([
         'index',
     ]);
+Route::apiResource('categories', \App\Http\Controllers\API\v1\CategoryController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
