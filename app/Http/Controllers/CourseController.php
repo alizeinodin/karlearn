@@ -31,9 +31,14 @@ class CourseController extends Controller
             'content' => $validatedData['content'],
             'type' => $validatedData['type'],
             'cost' => $validatedData['cost'],
-            'index_img' => Storage::putFile('images', $request->file('index_img')),
-            'index_video' => Storage::putFile('videos', $request->file('index_video')),
         ]);
+
+        if (isset($validatedData['index_img']))
+            $course->index_img = Storage::putFile('images', $validatedData['index_img']);
+        if (isset($validatedData['index_video']))
+            $course->index_video = Storage::putFile('videos', $validatedData['index_video']);
+
+        $course->save();
 
         $response = [
             'message' => __('courses.created'),
