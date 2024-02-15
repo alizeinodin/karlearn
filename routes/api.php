@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 require_once 'API/auth.php';
 
 Route::apiResource('courses', \App\Http\Controllers\CourseController::class);
+Route::apiResource('sections', \App\Http\Controllers\API\Course\SectionController::class)
+    ->except([
+        'index',
+    ]);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
