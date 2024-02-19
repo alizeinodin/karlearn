@@ -9,6 +9,10 @@ class QuestionSet extends Model
 {
     use HasFactory;
 
+    protected $with = [
+        'questions',
+    ];
+
     public function questions()
     {
         return $this->hasMany(Question::class);
