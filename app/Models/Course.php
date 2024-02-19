@@ -59,4 +59,9 @@ class Course extends Model
     {
         return $this->belongsToMany(Comment::class);
     }
+
+    public function quiz()
+    {
+        return $this->hasOne(Quiz::class);
+    }
 }
