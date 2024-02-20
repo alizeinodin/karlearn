@@ -77,4 +77,9 @@ class CourseController extends Controller
 
         return jsonResponse($response, Response::HTTP_NO_CONTENT);
     }
+
+    public function showQuiz(Course $course)
+    {
+        return jsonResponse($course->quiz, Response::HTTP_OK);
+    }
 }
