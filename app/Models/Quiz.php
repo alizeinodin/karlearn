@@ -20,4 +20,9 @@ class Quiz extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public function attendQuizzes()
+    {
+        return $this->belongsTo(AttendQuiz::class);
+    }
 }
