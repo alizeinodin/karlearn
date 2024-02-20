@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->string('video')->nullable(); // file address
             $table->time('time')->nullable();
-            $table->string('resources'); // file address
+            $table->string('resources')->nullable(); // file address
 
             $table->foreignIdFor(\App\Models\Course::class)
                 ->constrained()
