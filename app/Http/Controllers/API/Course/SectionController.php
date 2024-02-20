@@ -28,6 +28,7 @@ class SectionController extends Controller
         $section = new Section();
         $section->title ??= $validatedData['title'];
         $section->description ??= $validatedData['description'];
+        $section->type = $validatedData['type'] ?? $course->type === 'free' ? 'free' : 'unfree';
 
         if (isset($validatedData['video'])) {
             $section->video ??= Storage::putFile("sections/{$course->id}/videos", $validatedData['video']);
