@@ -17,4 +17,9 @@ class QuestionSet extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function attendQuizzes()
+    {
+        return $this->hasMany(AttendQuiz::class);
+    }
 }
