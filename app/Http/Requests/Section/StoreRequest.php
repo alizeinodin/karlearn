@@ -27,7 +27,8 @@ class StoreRequest extends FormRequest
             'description' => 'string',
             'video' => 'mimes:mp4,avi,mkv,webm|max:204800',
             'resources' => 'mimes:zip|max:204800',
-            'course_id' => 'required|exists:courses,id'
+            'course_id' => 'required|exists:courses,id',
+            'type' => 'in:free,unfree',
         ];
     }
 }
