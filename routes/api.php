@@ -17,13 +17,42 @@ use Illuminate\Support\Facades\Route;
 require_once 'API/auth.php';
 
 Route::apiResource('courses', \App\Http\Controllers\CourseController::class);
+
+Route::controller(\App\Http\Controllers\CourseController::class)->group(function () {
+    Route::name('courses.')->group(function () {
+        Route::prefix('/courses')->group(function () {
+            Route::middleware([])->group(function () {
+                Route::get('/{course}/quiz', 'showQuiz')
+                    ->name('quiz');
+            });
+        });
+    });
+});
+
+
 Route::apiResource('sections', \App\Http\Controllers\API\Course\SectionController::class)
     ->except([
         'index',
     ]);
+
+Route::controller(\App\Http\Controllers\API\Course\SectionController::class)->group(function () {
+    Route::name('sections.')->group(function () {
+        Route::prefix('/secitons')->group(function () {
+            Route::middleware([])->group(function () {
+                Route::get('/{section}/stream', 'streamVideo')
+                    ->name('stream');
+                Route::get('/{section}/download/video', 'downloadVideo')
+                    ->name('download.video');
+            });
+        });
+    });
+});
+
 Route::apiResource('categories', \App\Http\Controllers\API\v1\CategoryController::class);
-
-
+Route::apiResource('comments', \App\Http\Controllers\API\v1\CommentController::class)
+    ->except([
+        'index',
+    ]);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
