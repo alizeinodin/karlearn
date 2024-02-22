@@ -40,6 +40,11 @@ class Course extends Model
         return $query->with($this->supportedRelations);
     }
 
+    public function getScoreAttribute()
+    {
+        return $this->scores()->avg('amount');
+    }
+
     public function sections()
     {
         return $this->hasMany(Section::class);
