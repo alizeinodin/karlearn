@@ -55,6 +55,11 @@ Route::apiResource('comments', \App\Http\Controllers\API\v1\CommentController::c
     ->except([
         'index',
     ]);
+Route::apiResource('scores', \App\Http\Controllers\API\v1\ScoreController::class)
+    ->except([
+        'index',
+        'show',
+    ]);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
