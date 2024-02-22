@@ -54,6 +54,17 @@ Route::apiResource('comments', \App\Http\Controllers\API\v1\CommentController::c
     ->except([
         'index',
     ]);
+Route::controller(\App\Http\Controllers\API\v1\CommentController::class)->group(function () {
+    Route::name('comments.')->group(function () {
+        Route::prefix('/comments')->group(function () {
+            Route::middleware([])->group(function () {
+                Route::get('/get/{course}/', 'get')
+                    ->name('get');
+            });
+        });
+    });
+});
+
 Route::apiResource('scores', \App\Http\Controllers\API\v1\ScoreController::class)
     ->except([
         'index',
