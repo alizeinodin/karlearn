@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\StoreRequest;
 use App\Http\Requests\Comment\UpdateRequest;
 use App\Models\Comment;
+use App\Models\Course;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends Controller
 {
+    public function get(Course $course)
+    {
+        $comments = $course->comments()->paginate();
+        return jsonResponse($comments, Response::HTTP_OK);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
