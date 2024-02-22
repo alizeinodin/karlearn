@@ -48,22 +48,22 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function courses()
+    public function courses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Course::class);
     }
 
-    public function comments()
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function attendQuizzes()
+    public function attendQuizzes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(AttendQuiz::class);
     }
 
-    public function scores()
+    public function scores(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Score::class);
     }
