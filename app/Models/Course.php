@@ -74,4 +74,9 @@ class Course extends Model
     {
         return $this->hasMany(Score::class);
     }
+
+    public function questionSets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(QuestionSet::class);
+    }
 }

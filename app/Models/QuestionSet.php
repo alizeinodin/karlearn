@@ -13,13 +13,18 @@ class QuestionSet extends Model
         'questions',
     ];
 
-    public function questions()
+    public function questions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Question::class);
     }
 
-    public function attendQuizzes()
+    public function attendQuizzes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(AttendQuiz::class);
+    }
+
+    public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Course::class);
     }
 }
