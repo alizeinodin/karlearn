@@ -90,3 +90,8 @@ Route::controller(\App\Http\Controllers\API\v1\BuyController::class)->group(func
     });
 });
 
+Route::apiResource('questions', \App\Http\Controllers\API\v1\QuestionController::class)
+    ->except([
+        'index',
+    ]);
+
