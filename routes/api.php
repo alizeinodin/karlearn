@@ -37,12 +37,14 @@ Route::apiResource('sections', \App\Http\Controllers\API\Course\SectionControlle
 
 Route::controller(\App\Http\Controllers\API\Course\SectionController::class)->group(function () {
     Route::name('sections.')->group(function () {
-        Route::prefix('/secitons')->group(function () {
+        Route::prefix('/sections')->group(function () {
             Route::middleware([])->group(function () {
                 Route::get('/{section}/stream', 'streamVideo')
                     ->name('stream');
                 Route::get('/{section}/download/video', 'downloadVideo')
                     ->name('download.video');
+                Route::get('/{section}/download/resources', 'downloadResources')
+                    ->name('download.resources');
             });
         });
     });
