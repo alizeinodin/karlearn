@@ -83,4 +83,20 @@ class SectionController extends Controller
 
         return jsonResponse($response, Response::HTTP_NO_CONTENT);
     }
+
+
+    public function streamVideo(Section $section)
+    {
+        return Storage::get($section->video);
+    }
+
+    public function downloadVideo(Section $section)
+    {
+        return Storage::download($section->video);
+    }
+
+    public function downloadResources(Section $section)
+    {
+        return Storage::download($section->resources);
+    }
 }
