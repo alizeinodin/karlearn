@@ -46,6 +46,8 @@ class AuthController extends Controller
             'password' => encrypt($validatedData['password'])
         ]);
 
+        $user->assignRole($validatedData['role'] ?? 'student');
+
         $token = $user->createToken($request->device_name)->plainTextToken;
         $response = [
             'message' => __('register.success'),
