@@ -45,32 +45,32 @@ class Course extends Model
         return $this->scores()->avg('amount');
     }
 
-    public function sections()
+    public function sections(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Section::class);
     }
 
-    public function category()
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function users()
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
 
-    public function comments()
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(Comment::class);
+        return $this->hasMany(Comment::class);
     }
 
-    public function quiz()
+    public function quiz(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Quiz::class);
     }
 
-    public function scores()
+    public function scores(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Score::class);
     }
