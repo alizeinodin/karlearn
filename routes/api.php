@@ -94,4 +94,18 @@ Route::apiResource('questions', \App\Http\Controllers\API\v1\QuestionController:
     ->except([
         'index',
     ]);
+Route::apiResource('question_sets', \App\Http\Controllers\API\v1\QuestionSetController::class)
+    ->only([
+        'show',
+        'destroy',
+    ]);
 
+Route::controller(\App\Http\Controllers\API\v1\QuestionSetController::class)->group(function () {
+    Route::name('question_sets.')->group(function () {
+        Route::prefix('/question_sets')->group(function () {
+            Route::middleware('auth:sanctum')->group(function () {
+                Route::get('/get/{course}', 'get')->name('get');
+            });
+        });
+    });
+});
