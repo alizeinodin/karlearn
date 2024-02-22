@@ -79,3 +79,14 @@ Route::controller(\App\Http\Controllers\API\v1\UserController::class)->group(fun
         });
     });
 });
+
+Route::controller(\App\Http\Controllers\API\v1\BuyController::class)->group(function () {
+    Route::name('purchases.')->group(function () {
+        Route::prefix('/buy')->group(function () {
+            Route::middleware('auth:sanctum')->group(function () {
+                Route::post('/', 'buy')->name('buy');
+            });
+        });
+    });
+});
+
