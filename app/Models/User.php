@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(AttendQuiz::class);
     }
+
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
 }
