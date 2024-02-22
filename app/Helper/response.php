@@ -3,7 +3,7 @@
 function jsonResponse(mixed $response, int $status): \Illuminate\Http\JsonResponse
 {
     $contents = [
-        'version' => env('version'),
+        'version' => env('APP_VERSION'),
         'content' => $response,
     ];
 
