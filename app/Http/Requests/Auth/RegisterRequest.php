@@ -26,6 +26,7 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'nickname' => 'string',
             'password' => 'required|string|min:8',
+            'role' => 'in:student,master'
         ];
     }
 }
