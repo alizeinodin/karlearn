@@ -28,6 +28,7 @@ class StoreRequest extends FormRequest
             'questions.1.title' => 'required|string',
             'questions.2.title' => 'required|string',
             'questions.3.title' => 'required|string',
+            'answer' => 'required|digits_between:0,4'
         ];
     }
 }
