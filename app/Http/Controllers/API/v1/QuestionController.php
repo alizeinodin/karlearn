@@ -19,11 +19,19 @@ class QuestionController extends Controller
             'course_id' => $validatedData['course_id'],
         ]);
 
-        foreach ($validatedData['questions'] as $questionData) {
+        foreach ($validatedData['questions'] as $key => $questionData) {
+            $question = $this->makeQuestion($questionData);
+
             $questionSet
                 ->questions()
-                ->associate($this->makeQuestion($questionData))
+                ->associate($question)
                 ->save();
+
+            if ($key === $validatedData['answer'])
+                $questionSet
+                    ->answer()
+                    ->associate($question)
+                    ->save();
         }
 
         $response = [
