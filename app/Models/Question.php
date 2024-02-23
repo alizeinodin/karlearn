@@ -14,8 +14,13 @@ class Question extends Model
         'question_set_id',
     ];
 
-    public function questionSet()
+    public function questionSet(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(QuestionSet::class);
+    }
+
+    public function answerOf(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(QuestionSet::class);
     }
 }

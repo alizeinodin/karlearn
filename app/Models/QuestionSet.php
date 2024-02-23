@@ -27,4 +27,9 @@ class QuestionSet extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public function answer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Question::class, 'question_id');
+    }
 }
