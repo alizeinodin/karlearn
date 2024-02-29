@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -16,10 +17,9 @@ class AuthController extends Controller
     {
         $validatedData = $request->validated();
 
-        $user = User::where(['email' => $validatedData['email']])->first();
-
-        if (Auth::attempt(['email' => $user->email, 'password' => $validatedData['password']])) {
-            $token = $user->createToken($request->device_name)->plainTextToken;
+        if (Auth::attempt(['email' => $validatedData['email'], 'password' => $validatedData['password']])) {
+            $user = User::where(['email' => $validatedData['email']])->with('roles')->first();
+            $token = $user->createToken($request->header('User-Agent'))->plainTextToken;
             $response = [
                 'message' => __('login.success'),
                 'user' => $user,
@@ -41,14 +41,14 @@ class AuthController extends Controller
 
         $user = User::create([
             'username' => $validatedData['username'],
-            'email' => $validatedData['username'],
+            'email' => $validatedData['email'],
             'nickname' => $validatedData['nickname'] ?? $validatedData['username'],
-            'password' => encrypt($validatedData['password'])
+            'password' => bcrypt($validatedData['password'])
         ]);
 
         $user->assignRole($validatedData['role'] ?? 'student');
 
-        $token = $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken($request->header('User-Agent'))->plainTextToken;
         $response = [
             'message' => __('register.success'),
             'token' => $token,
@@ -60,7 +60,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->logout();
+        $request->user()->currentAccessToken()->delete();
 
         return jsonResponse([], Response::HTTP_NO_CONTENT);
     }
