@@ -109,3 +109,8 @@ Route::controller(\App\Http\Controllers\API\v1\QuestionSetController::class)->gr
         });
     });
 });
+
+  Route::apiResource('quizzes', \App\Http\Controllers\API\v1\QuizController::class)
+    ->except([
+        'index',
+    ]);
