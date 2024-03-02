@@ -26,23 +26,30 @@ class CourseResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'title')
                     ->required(),
+                Forms\Components\Checkbox::make('is_active')
+                    ->name('Active')
+                    ->default(true),
                 Forms\Components\TextInput::make('title')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
                     ->maxLength(255),
-                Forms\Components\Textarea::make('content')
+                Forms\Components\RichEditor::make('content')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('index_img')
+                    ->name('Image')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('index_video')
+                    ->name('Video')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('score')
                     ->required()
                     ->numeric()
                     ->default(0),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255)
+                Forms\Components\Select::make('type')
+                    ->options([
+                        'free' => "Free",
+                        'unfree' => "Unfree"
+                    ])
                     ->default('free'),
                 Forms\Components\TextInput::make('cost')
                     ->required()
@@ -74,6 +81,8 @@ class CourseResource extends Resource
                 Tables\Columns\TextColumn::make('sales')
                     ->counts('users')
                     ->default(0)
+                    ->sortable(),
+                Tables\Columns\CheckboxColumn::make('is_active')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
