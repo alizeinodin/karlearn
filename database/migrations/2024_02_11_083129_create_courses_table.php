@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('score')->default(0);
             $table->string('type')->default('free');
             $table->unsignedBigInteger('cost')->default(0);
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }
