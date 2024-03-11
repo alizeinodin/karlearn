@@ -26,6 +26,7 @@ class UpdateRequest extends FormRequest
             'description' => 'string',
             'time' => 'date_format:H:i:s',
             'constraint_time' => 'date_format:H:i:s',
+            'passing_score' => 'numeric|between:0,100'
         ];
     }
 }
