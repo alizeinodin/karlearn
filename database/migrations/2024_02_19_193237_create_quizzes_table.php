@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->time('constraint_time');
             $table->time('time');
+            $table->unsignedInteger('passing_score')->default(100);
             $table->foreignIdFor(\App\Models\Course::class)
                 ->constrained()
                 ->cascadeOnUpdate()
