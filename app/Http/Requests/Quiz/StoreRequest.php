@@ -27,6 +27,7 @@ class StoreRequest extends FormRequest
             'time' => 'required|date_format:H:i:s',
             'constraint_time' => 'required|date_format:H:i:s',
             'course_id' => 'required|exists:courses,id',
+            'passing_score' => 'required|numeric|between:0,100'
         ];
     }
 }
