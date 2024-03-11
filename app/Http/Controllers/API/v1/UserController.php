@@ -12,4 +12,18 @@ class UserController extends Controller
     {
         return jsonResponse($request->user(), Response::HTTP_OK);
     }
+
+    public function courses(Request $request)
+    {
+        $courses = $request
+            ->user()
+            ->courses()
+            ->paginate();
+
+        $response = [
+            'courses' => $courses,
+        ];
+
+        return jsonResponse($response, Response::HTTP_OK);
+    }
 }

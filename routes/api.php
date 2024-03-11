@@ -75,6 +75,7 @@ Route::controller(\App\Http\Controllers\API\v1\UserController::class)->group(fun
         Route::prefix('/users')->group(function () {
             Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/get', 'get')->name('get');
+                Route::get('/courses', 'courses')->name('courses');
             });
         });
     });
@@ -110,7 +111,7 @@ Route::controller(\App\Http\Controllers\API\v1\QuestionSetController::class)->gr
     });
 });
 
-  Route::apiResource('quizzes', \App\Http\Controllers\API\v1\QuizController::class)
+Route::apiResource('quizzes', \App\Http\Controllers\API\v1\QuizController::class)
     ->except([
         'index',
     ]);
