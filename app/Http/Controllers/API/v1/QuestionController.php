@@ -15,28 +15,28 @@ class QuestionController extends Controller
     {
         $validatedData = $request->validated();
 
-        $questionSet = QuestionSet::create([
-            'course_id' => $validatedData['course_id'],
-        ]);
+        $questionSet = new QuestionSet();
+        $questionSet->title = $validatedData['title'];
+        $questionSet->course()
+            ->associate($validatedData['course_id']);
+        $questionSet
+            ->save();
 
         foreach ($validatedData['questions'] as $key => $questionData) {
-            $question = $this->makeQuestion($questionData);
+            $question = $this->makeQuestion($questionData, $questionSet);
 
-            $questionSet
-                ->questions()
-                ->associate($question)
-                ->save();
-
-            if ($key === $validatedData['answer'])
+            if ($key == $validatedData['answer']) {
                 $questionSet
                     ->answer()
-                    ->associate($question)
+                    ->associate($question->id);
+                $questionSet
                     ->save();
+            }
         }
 
         $response = [
             'message' => __('questions.created'),
-            'questions' => $questionSet
+            'questions' => $questionSet->load('questions')->load('answer'),
         ];
 
         return jsonResponse($response, Response::HTTP_CREATED);
@@ -77,10 +77,15 @@ class QuestionController extends Controller
         return jsonResponse($response, Response::HTTP_NO_CONTENT);
     }
 
-    protected function makeQuestion(array $data): Question
+    protected function makeQuestion(array $data, QuestionSet $questionSet): Question
     {
         $question = new Question();
         $question->title = $data['title'];
+
+        $question->questionSet()
+            ->associate($questionSet);
+        $question->save();
+
         return $question;
     }
 }
