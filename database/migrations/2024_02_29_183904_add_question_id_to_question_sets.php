@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::table('question_sets', function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\Question::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
