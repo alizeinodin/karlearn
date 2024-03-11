@@ -9,6 +9,10 @@ class QuestionSet extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+    ];
+
     protected $with = [
         'questions',
     ];

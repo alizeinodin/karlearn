@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('question_sets', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->foreignIdFor(\App\Models\Course::class)
                 ->constrained()
                 ->cascadeOnUpdate()
