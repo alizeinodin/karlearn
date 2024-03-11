@@ -23,12 +23,13 @@ class StoreRequest extends FormRequest
     {
         return [
             'course_id' => 'required|exists:courses,id',
+            'title' => 'required|string|max:200',
             'questions' => 'required|array',
             'questions.0.title' => 'required|string',
             'questions.1.title' => 'required|string',
             'questions.2.title' => 'required|string',
             'questions.3.title' => 'required|string',
-            'answer' => 'required|digits_between:0,4'
+            'answer' => 'required|digits_between:0,3'
         ];
     }
 }
