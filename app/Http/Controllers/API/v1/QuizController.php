@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Quiz\StoreRequest;
 use App\Http\Requests\Quiz\UpdateRequest;
+use App\Models\Course;
 use App\Models\Quiz;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,18 +15,15 @@ class QuizController extends Controller
     {
         $validatedData = $request->validated();
 
-        $quiz = Quiz::create([
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description'],
-            'time' => $validatedData['time'],
-            'constraint_time' => $validatedData['constraint_time'],
-        ]);
+        $quiz = new Quiz();
+        $quiz->title = $validatedData['title'];
+        $quiz->description = $validatedData['description'];
+        $quiz->time = $validatedData['time'];
+        $quiz->constraint_time = $validatedData['constraint_time'];
 
         $quiz->course()
-            ->attach([
-                $validatedData['course_id']
-            ])
-            ->save();
+            ->associate($validatedData['course_id']);
+        $quiz->save();
 
         $response = [
             'message' => __('quiz.created'),
