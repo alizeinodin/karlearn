@@ -20,6 +20,7 @@ class QuizController extends Controller
         $quiz->description = $validatedData['description'];
         $quiz->time = $validatedData['time'];
         $quiz->constraint_time = $validatedData['constraint_time'];
+        $quiz->passing_score = $validatedData['passing_score'];
 
         $quiz->course()
             ->associate($validatedData['course_id']);
