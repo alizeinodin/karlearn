@@ -15,6 +15,7 @@ class QuestionSet extends Model
 
     protected $with = [
         'questions',
+        'answer',
     ];
 
     public function questions(): \Illuminate\Database\Eloquent\Relations\HasMany
