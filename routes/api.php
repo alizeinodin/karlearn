@@ -98,6 +98,7 @@ Route::apiResource('questions', \App\Http\Controllers\API\v1\QuestionController:
 Route::apiResource('question_sets', \App\Http\Controllers\API\v1\QuestionSetController::class)
     ->only([
         'show',
+        'update',
         'destroy',
     ]);
 
