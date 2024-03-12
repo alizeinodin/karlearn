@@ -16,12 +16,12 @@ class Quiz extends Model
         'constraint_time',
     ];
 
-    public function course()
+    public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
-    public function attendQuizzes()
+    public function attendQuizzes(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AttendQuiz::class);
     }
