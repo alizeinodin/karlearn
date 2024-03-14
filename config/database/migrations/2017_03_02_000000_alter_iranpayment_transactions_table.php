@@ -1,9 +1,11 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+namespace config\database\migrations;
 
 use Dena\IranPayment\Traits\IranPaymentDatabase;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Schema;
 
 class AlterIranPaymentTransactionsTable extends Migration
 {
