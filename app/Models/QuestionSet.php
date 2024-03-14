@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class QuestionSet extends Model
 {
@@ -18,22 +21,22 @@ class QuestionSet extends Model
         'answer',
     ];
 
-    public function questions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
     }
 
-    public function attendQuizzes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function attendQuizzes(): BelongsToMany
     {
-        return $this->hasMany(AttendQuiz::class);
+        return $this->belongsToMany(AttendQuiz::class);
     }
 
-    public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
-    public function answer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function answer(): BelongsTo
     {
         return $this->belongsTo(Question::class, 'question_id');
     }
