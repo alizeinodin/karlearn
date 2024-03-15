@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Course\StoreRequest;
 use App\Http\Requests\Course\UpdateRequest;
+use App\Models\Category;
 use App\Models\Course;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use function PHPUnit\Framework\matches;
 
 class CourseController extends Controller
 {
@@ -81,5 +84,21 @@ class CourseController extends Controller
     public function showQuiz(Course $course)
     {
         return jsonResponse($course->quiz, Response::HTTP_OK);
+    }
+
+    public function sortByTime(Category $category)
+    {
+        $result = $category->courses()->latest()->paginate();
+
+        return jsonResponse($result, Response::HTTP_OK);
+
+    }
+
+    public function sortByBuy(Category $category)
+    {
+        $result = $category->courses()->withCount('users')->orderByDesc('users_count')->paginate();
+
+        return jsonResponse($result, Response::HTTP_OK);
+
     }
 }
