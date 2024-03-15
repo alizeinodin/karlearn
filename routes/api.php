@@ -27,6 +27,8 @@ Route::controller(\App\Http\Controllers\CourseController::class)->group(function
                     ->name('sort.buy');
                 Route::get('/sort/{category}/time', 'sortByTime')
                     ->name('sort.time');
+                Route::post('/search', 'search')
+                    ->name('search');
             });
         });
     });
