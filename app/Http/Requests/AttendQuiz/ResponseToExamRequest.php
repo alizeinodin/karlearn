@@ -23,7 +23,12 @@ class ResponseToExamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'answer' => 'required|exists:questions,id'
+            'answer' => 'required|array',
+            'answer.0' => 'required|exists:questions,id',
+            'answer.1' => 'exists:questions,id',
+            'answer.2' => 'exists:questions,id',
+            'answer.3' => 'exists:questions,id',
+            'answer.4' => 'exists:questions,id',
         ];
     }
 }

@@ -31,7 +31,21 @@ class AttendQuizController extends Controller
 
     public function startExam(Request $request, Course $course)
     {
-        # TODO Add validation for start an exam
+        $notCompleteExam = $request->user()->attendQuizzes()->whereNull('end_time')->where('quiz_id', '=', $course->quiz->id)->exists();
+
+        if ($notCompleteExam)
+            return jsonResponse([
+                'message' => __('quiz.forbidden')
+            ], Response::HTTP_FORBIDDEN);
+
+        $latestAttendQuizInThisCourse = $request->user()->attendQuizzes()->where('quiz_id', '=', $course->quiz->id)->latest()->first();
+
+        $constraintTimeExam = Carbon::make($latestAttendQuizInThisCourse->end_time);
+
+        if (now()->diff($constraintTimeExam)->i < Carbon::make($latestAttendQuizInThisCourse->quiz->constraint_time)->minute)
+            return jsonResponse([
+                'message' => __('quiz.constraint_time')
+            ], Response::HTTP_FORBIDDEN);
 
         $questionSetsNumbers = $course->questionSets()->count();
         $limitNumber = $questionSetsNumbers < 5 ? $questionSetsNumbers : 5;
@@ -62,18 +76,33 @@ class AttendQuizController extends Controller
 
     public function responseToExam(ResponseToExamRequest $request, AttendQuiz $attendQuiz)
     {
-        # TODO validation for not exist score for quiz
         $validatedData = $request->validated();
 
-        if ($validatedData['answer'] === $attendQuiz->questionSet()->answer->id) {
-            $attendQuiz->update([
-                'score' => 100,
-                'status' => 'pass',
-            ]);
+        $corrects = 0;
+        $wrongs = 0;
+
+        for ($i = 0; $i < count($attendQuiz->questionSets); $i++) {
+            if ($attendQuiz->questionSets[$i]->answer->id == $validatedData['answer'][$i]) {
+                $corrects++;
+            } else {
+                $wrongs++;
+            }
         }
+
+        $score = ($corrects / ($corrects + $wrongs)) * 100;
 
         $attendQuiz->update([
             'end_time' => now(),
+            'score' => $score,
+            'status' => $score > $attendQuiz->quiz->passing_score ? 'pass' : 'rejected',
         ]);
+        $attendQuiz->refresh();
+
+        $response = [
+            'message' => __('exam.submit'),
+            'exam' => $attendQuiz,
+        ];
+
+        return jsonResponse($response, Response::HTTP_OK);
     }
 }
