@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Course\SearchRequest;
 use App\Http\Requests\Course\StoreRequest;
 use App\Http\Requests\Course\UpdateRequest;
 use App\Models\Category;
@@ -100,5 +101,14 @@ class CourseController extends Controller
 
         return jsonResponse($result, Response::HTTP_OK);
 
+    }
+
+    public function search(SearchRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        $result = Course::where('title', 'LIKE', '%' . $validatedData['content'] . '%')->limit(10)->get();
+
+        return jsonResponse($result, Response::HTTP_OK);
     }
 }
