@@ -23,6 +23,10 @@ Route::controller(\App\Http\Controllers\CourseController::class)->group(function
             Route::middleware([])->group(function () {
                 Route::get('/{course}/quiz', 'showQuiz')
                     ->name('quiz');
+                Route::get('/sort/{category}/buy', 'sortByBuy')
+                    ->name('sort.buy');
+                Route::get('/sort/{category}/time', 'sortByTime')
+                    ->name('sort.time');
             });
         });
     });
