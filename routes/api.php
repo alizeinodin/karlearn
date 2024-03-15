@@ -124,6 +124,7 @@ Route::controller(\App\Http\Controllers\API\v1\AttendQuizController::class)->gro
                 Route::get('/', 'getQuizzesResult')->name('get-quizzes-result');
                 Route::get('/latest', 'getLatestQuizzesResult')->name('get-latest-quizzes-result');
                 Route::get('/start/{course}', 'startExam')->name('start-exam');
+                Route::get('/report/{course}', 'report')->name('report');
                 Route::post('/response/{attend_quiz}', 'responseToExam')->name('response');
             });
         });
