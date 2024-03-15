@@ -116,3 +116,16 @@ Route::apiResource('quizzes', \App\Http\Controllers\API\v1\QuizController::class
     ->except([
         'index',
     ]);
+
+Route::controller(\App\Http\Controllers\API\v1\AttendQuizController::class)->group(function () {
+    Route::name('exams.')->group(function () {
+        Route::prefix('/exams')->group(function () {
+            Route::middleware('auth:sanctum')->group(function () {
+                Route::get('/', 'getQuizzesResult')->name('get-quizzes-result');
+                Route::get('/latest', 'getLatestQuizzesResult')->name('get-latest-quizzes-result');
+                Route::get('/start/{course}', 'startExam')->name('start-exam');
+                Route::post('/response', 'responseToExam')->name('response');
+            });
+        });
+    });
+});
