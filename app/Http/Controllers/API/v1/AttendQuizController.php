@@ -29,6 +29,37 @@ class AttendQuizController extends Controller
         return jsonResponse($latestAttendQuiz, Response::HTTP_OK);
     }
 
+    public function report(Request $request, Course $course)
+    {
+        $attendQuizzes = AttendQuiz::where('quiz_id', '=', $course->quiz->id)->get();
+
+        $users = $attendQuizzes->map(function ($item) {
+//            dd($item->user->id);
+            return $item->user;
+        })->unique();
+
+        $passing = $attendQuizzes->filter(function ($item) {
+            return $item->status === 'pass';
+        });
+
+        $sumScores = 0;
+
+        foreach ($attendQuizzes as $attendQuiz) {
+            $sumScores += $attendQuiz->score;
+        }
+
+        $averageScores = ($sumScores / count($attendQuizzes));
+
+        $response = [
+            'userNumbers' => count($users),
+            'users' => $users,
+            'averageScores' => $averageScores,
+            'passingPercentage' => count($passing) / count($attendQuizzes) * 100,
+        ];
+
+        return jsonResponse($response, Response::HTTP_OK);
+    }
+
     public function startExam(Request $request, Course $course)
     {
         $notCompleteExam = $request->user()->attendQuizzes()->whereNull('end_time')->where('quiz_id', '=', $course->quiz->id)->exists();
