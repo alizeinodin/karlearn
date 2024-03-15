@@ -13,14 +13,14 @@ class BuyController extends Controller
         $validatedData = $request->validated();
 
         $request
-            ->user
+            ->user()
             ->courses()
-            ->associate($validatedData['course_id'])
-            ->save();
+            ->attach($validatedData['course_id']);
+        $request->user()->save();
 
         $response = [
             'message' => __('course.bought'),
-            'user' => $request->user->load('courses'),
+            'user' => $request->user()->load('courses'),
         ];
 
         return jsonResponse($response, Response::HTTP_OK);
