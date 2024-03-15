@@ -18,7 +18,6 @@ class QuestionSet extends Model
 
     protected $with = [
         'questions',
-        'answer',
     ];
 
     public function questions(): HasMany

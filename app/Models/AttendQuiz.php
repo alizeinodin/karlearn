@@ -20,7 +20,7 @@ class AttendQuiz extends Model
     protected $with = [
         'quiz',
         'user',
-        'questionSet',
+        'questionSets',
     ];
 
     protected $casts = [
@@ -37,7 +37,7 @@ class AttendQuiz extends Model
         return $this->belongsTo(Quiz::class);
     }
 
-    public function questionSet(): BelongsToMany
+    public function questionSets(): BelongsToMany
     {
         return $this->belongsToMany(QuestionSet::class);
     }
