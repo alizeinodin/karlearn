@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AttendQuiz\ResponseToExamRequest;
+use App\Jobs\TerminateExam;
 use App\Models\AttendQuiz;
 use App\Models\Course;
 use App\Models\Quiz;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,18 +40,22 @@ class AttendQuizController extends Controller
         $attendQuiz = new AttendQuiz();
         $attendQuiz->quiz()->associate($course->quiz);
         $attendQuiz->user()->associate($request->user());
-        $attendQuiz->questionSet()->associate($questionSet);
         $attendQuiz->save();
+        $attendQuiz->questionSets()->attach($questionSet->getQueueableIds());
+        $attendQuiz->save();
+
+        $minutes = Carbon::make($course->quiz->time)->minute;
+
+        TerminateExam::dispatch($attendQuiz)
+            ->delay(now()->addMinutes($minutes));
 
         $response = [
             'message' => __('quiz.started'),
             'content' => [
-                'time' => $course->quiz()->time,
-                'quiz' => $attendQuiz,
+                'time' => now()->addMinutes($minutes)->toTimeString(),
+                'exam' => $attendQuiz->load('questionSets'),
             ],
         ];
-
-        # TODO Add job for set end time after legal time of course
 
         return jsonResponse($response, Response::HTTP_CREATED);
     }
