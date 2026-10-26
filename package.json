@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "frontend:install": "npm --prefix resources/frontend install",
+        "frontend:dev": "npm --prefix resources/frontend start",
+        "frontend:build": "npm --prefix resources/frontend run build"
     },
     "devDependencies": {
         "axios": "^1.6.4",

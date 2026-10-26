@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/frontend
 /storage/*.key
 /vendor
 .env
@@ -17,3 +18,11 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/resources/frontend/node_modules
+/resources/frontend/.env
+/portfolio-screenshots
+
+# large media / junk
+*.mp4
+.DS_Store
+**/.DS_Store

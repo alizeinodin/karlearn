@@ -1,66 +1,224 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Karlearn
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Karlearn is a full-stack online learning platform (LMS) portfolio project.  
+The React frontend now lives **inside this Laravel repository** and is served by Laravel as a single-page application.
 
-## About Laravel
+**Live demo:** [https://cafejoon.ir/karlearn](https://cafejoon.ir/karlearn)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Demo screenshots
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Public website
 
-## Learning Laravel
+| Home | Courses |
+|------|---------|
+| ![Home](docs/demo/karlearn-home.png) | ![Courses](docs/demo/karlearn-courses.png) |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Course details | Login |
+|----------------|-------|
+| ![Course details](docs/demo/karlearn-course-react.png) | ![Login](docs/demo/karlearn-login.png) |
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+| Register | Contact |
+|----------|---------|
+| ![Register](docs/demo/karlearn-register.png) | ![Contact](docs/demo/karlearn-contact.png) |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Admin panel (`/p-admin`)
 
-## Laravel Sponsors
+| Courses management | Categories |
+|--------------------|------------|
+| ![Admin courses](docs/demo/karlearn-p-admin.png) | ![Categories](docs/demo/karlearn-p-admin-category.png) |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Sessions | Comments |
+|----------|----------|
+| ![Sessions](docs/demo/karlearn-p-admin-sessions.png) | ![Comments](docs/demo/karlearn-p-admin-comments.png) |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Architecture
 
-## Contributing
+```text
+karlearn/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── SpaController.php      # Serves the React SPA
+│   │   ├── CourseController.php
+│   │   └── API/...
+│   ├── Models/
+│   └── Filament/
+├── routes/
+│   ├── api.php                    # REST API (/api/*)
+│   └── web.php                    # SPA catch-all + misc web routes
+├── resources/
+│   ├── frontend/                  # React (CRA) source
+│   │   ├── public/
+│   │   ├── src/
+│   │   ├── package.json
+│   │   ├── .env.example
+│   │   └── .env.demo              # Subpath deploy example (/karlearn)
+│   └── views/
+│       └── spa.blade.php          # Fallback if frontend is not built
+├── public/
+│   └── frontend/                  # CRA production build output (generated)
+└── docs/demo/                     # README screenshots
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Layer | Role |
+|-------|------|
+| Laravel API | JSON endpoints under `/api` |
+| React SPA | UI for public site + `/p-admin` |
+| `SpaController` | Returns `public/frontend/index.html` for non-API routes |
+| Static assets | Served from `public/frontend/*` |
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Features
 
-## Security Vulnerabilities
+### Public site
+- RTL Persian e-learning UI
+- Course listing, course details, session routes
+- Register / login / logout (Laravel Sanctum)
+- Contact form and course search
+- User account area (`/my-account`)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Admin panel
+- Course CRUD (title, description, price, category, media)
+- Category management
+- Session/section management
+- Comments moderation UI
+
+### Backend
+- REST API for courses, categories, sections, comments, quizzes, purchases
+- Sanctum token auth + Spatie permissions
+- File storage for images/videos/resources
+- Filament resources available in Laravel
+- Iranian payment package (`dena-a/iran-payment`)
+
+---
+
+## Tech stack
+
+| Layer | Technologies |
+|-------|----------------|
+| Backend | PHP 8.1+, Laravel 10, Sanctum, Spatie Permission, Filament 3 |
+| Frontend | React 18 (CRA), React Router 6, Axios, Bootstrap 5 |
+| Database | MySQL |
+| Auth | Bearer tokens (Sanctum) |
+
+---
+
+## Demo links
+
+| Page | URL |
+|------|-----|
+| Home | https://cafejoon.ir/karlearn |
+| Courses | https://cafejoon.ir/karlearn/courses/1 |
+| Login | https://cafejoon.ir/karlearn/login |
+| Register | https://cafejoon.ir/karlearn/register |
+| Contact | https://cafejoon.ir/karlearn/contact |
+| Admin panel | https://cafejoon.ir/karlearn/p-admin |
+
+---
+
+## Local setup
+
+### 1) Backend
+
+```bash
+cp .env.example .env
+composer install
+php artisan key:generate
+php artisan migrate
+php artisan storage:link
+php artisan serve
+```
+
+API: `http://127.0.0.1:8000/api`
+
+### 2) Frontend (inside Laravel)
+
+```bash
+# from project root
+npm run frontend:install
+cp resources/frontend/.env.example resources/frontend/.env
+npm run frontend:build
+php artisan serve
+```
+
+Then open `http://127.0.0.1:8000` — Laravel serves the SPA via `SpaController`.
+
+### Frontend development mode
+
+```bash
+npm run frontend:dev
+```
+
+CRA runs on port `3006`. Point `REACT_APP_API_BASE` to your Laravel API (for example `http://127.0.0.1:8000/api`).
+
+### Useful npm scripts (project root)
+
+| Script | Description |
+|--------|-------------|
+| `npm run frontend:install` | Install React dependencies |
+| `npm run frontend:dev` | Start CRA dev server |
+| `npm run frontend:build` | Build SPA into `public/frontend` |
+
+---
+
+## Frontend configuration
+
+Configured in `resources/frontend/.env`:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `REACT_APP_BASENAME` | _(empty)_ | React Router basename |
+| `REACT_APP_API_BASE` | `/api` | API prefix used by `apiUrl()` |
+| `REACT_APP_ASSET_BASE` | _(empty)_ | Media/public asset prefix |
+| `PUBLIC_URL` | `/frontend` | CRA asset public path |
+
+For a subpath deploy like `/karlearn`, use `resources/frontend/.env.demo` as a template:
+
+```env
+REACT_APP_BASENAME=/karlearn
+REACT_APP_API_BASE=/karlearn/api
+REACT_APP_ASSET_BASE=/karlearn
+PUBLIC_URL=/karlearn/frontend
+```
+
+Shared helpers live in `resources/frontend/src/config.js`.
+
+---
+
+## Important API endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/register` | Create account |
+| `POST` | `/api/login` | Login + token |
+| `POST` | `/api/logout` | Logout |
+| `GET` | `/api/courses` | Paginated courses |
+| `GET` | `/api/courses/{id}` | Course details |
+| `GET` | `/api/courses/category/{name}` | Courses by category |
+| `POST` | `/api/courses/search` | Search courses |
+| `GET/POST` | `/api/categories` | List / create categories |
+| `POST` | `/api/sections` | Create session/section |
+| `GET` | `/api/sections/{id}/stream` | Stream video |
+| `GET` | `/api/comments/get/{course}` | Course comments |
+| `POST` | `/api/buy` | Purchase course (auth) |
+| `GET` | `/api/users/get` | Current user (auth) |
+| `GET` | `/api/users/courses` | Purchased courses (auth) |
+
+---
+
+## Notes
+
+- This project is a **portfolio / demo** LMS.
+- The React app previously lived in a sibling `frontKarlearn` folder; it is now integrated under `resources/frontend`.
+- Run `npm run frontend:build` before deploying so `public/frontend` exists.
+- Some legacy admin modules still reference unfinished endpoints; core courses, categories, sessions, auth, and public browsing are the main demo focus.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT

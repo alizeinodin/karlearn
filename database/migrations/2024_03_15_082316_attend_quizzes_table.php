@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('attend_quizzes', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('score')->default(0);
-            $table->text('status')->default('rejected');
+            $table->string('status')->default('rejected');
             $table->time('end_time')->nullable();
             $table->foreignIdFor(\App\Models\User::class)
                 ->constrained()

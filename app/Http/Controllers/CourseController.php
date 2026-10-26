@@ -111,4 +111,11 @@ class CourseController extends Controller
 
         return jsonResponse($result, Response::HTTP_OK);
     }
+
+    public function categoryCourses(string $categoryName)
+    {
+        $category = Category::where('title', $categoryName)->firstOrFail();
+
+        return jsonResponse($category->courses()->get(), Response::HTTP_OK);
+    }
 }

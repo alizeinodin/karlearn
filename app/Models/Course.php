@@ -14,10 +14,17 @@ class Course extends Model
     protected $fillable = [
         'title',
         'content',
+        'cost',
         'score',
+        'category_id',
         'index_img',
         'index_video',
         'type',
+    ];
+    protected $appends = [
+        'name',
+        'price',
+        'description',
     ];
     protected $with = ['sections'];
 
@@ -43,6 +50,21 @@ class Course extends Model
     public function getScoreAttribute()
     {
         return $this->scores()->avg('amount');
+    }
+
+    public function getNameAttribute(): string
+    {
+        return (string) $this->title;
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->cost ?? 0;
+    }
+
+    public function getDescriptionAttribute(): string
+    {
+        return (string) $this->content;
     }
 
     public function sections(): \Illuminate\Database\Eloquent\Relations\HasMany

@@ -23,6 +23,8 @@ Route::controller(\App\Http\Controllers\CourseController::class)->group(function
             Route::middleware([])->group(function () {
                 Route::get('/{course}/quiz', 'showQuiz')
                     ->name('quiz');
+                Route::get('/category/{categoryName}', 'categoryCourses')
+                    ->name('category');
                 Route::get('/sort/{category}/buy', 'sortByBuy')
                     ->name('sort.buy');
                 Route::get('/sort/{category}/time', 'sortByTime')
@@ -135,4 +137,8 @@ Route::controller(\App\Http\Controllers\API\v1\AttendQuizController::class)->gro
             });
         });
     });
+});
+
+Route::post('/contact', function () {
+    return response()->noContent();
 });
